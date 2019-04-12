@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1474c0c0a4653d4e9c000ae82bb90a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _whiteCheckerSprite: {fileID: 21300006, guid: bdc486ab389435a49ba9a88997ae7480,
+  _whiteCheckerSprite: {fileID: 21300008, guid: bdc486ab389435a49ba9a88997ae7480,
     type: 3}
-  _blackCheckerSprite: {fileID: 21300008, guid: bdc486ab389435a49ba9a88997ae7480,
+  _blackCheckerSprite: {fileID: 21300006, guid: bdc486ab389435a49ba9a88997ae7480,
     type: 3}
