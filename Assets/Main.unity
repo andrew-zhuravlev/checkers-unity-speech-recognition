@@ -284,6 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1603100336}
   - component: {fileID: 1603100335}
+  - component: {fileID: 1603100337}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -306,7 +307,8 @@ MonoBehaviour:
   _checkerPrefab: {fileID: 5839428273750001533, guid: 291bdf7f27044c24a8cfee20c04209a4,
     type: 3}
   _dummyChecker: {fileID: 535258496}
-  _cellSize: 1.285
+  CellSize: 1.285
+  isWhiteMove: 1
 --- !u!4 &1603100336
 Transform:
   m_ObjectHideFlags: 0
@@ -322,6 +324,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1603100337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603100334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48830df07768cf9438e27022ee77bbb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 519420031}
+  _checkerGhost: {fileID: 0}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &1804289890
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,3 +421,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1861882401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1861882402}
+  - component: {fileID: 1861882403}
+  m_Layer: 0
+  m_Name: CheckerGhostPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1861882402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861882401}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1861882403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861882401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9c654a8e3baf1044b2971731f96b0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemsToPool:
+  - objectToPool: {fileID: 5839428273750001534, guid: 9f7b5adc67b1fdf45aae86decd6bd456,
+      type: 3}
+    amountToPool: 13
+    shouldExpand: 0
+  pooledObjects: []
