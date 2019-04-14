@@ -18,19 +18,11 @@ public class CheckerBoard : MonoBehaviour
         return !_allCheckers.ContainsKey(coords) ? null : _allCheckers[coords];
     }
 
-    public static CheckerBoard SharedInstance { get; private set; }
+    public bool OutsideBoard(CheckerCoords coords) {
+        return coords.Y < 1 || coords.Y > 8 || coords.X < 1 || coords.X > 8;
+    }
     
     void Awake() {
-        if (SharedInstance == null) {
-            SharedInstance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else {
-            Debug.LogWarning("Destroyed Copy of CheckerBoard!");
-            DestroyImmediate(gameObject);
-        }
-
-
         for (int y = 1; y <= 3; ++y)
             CreateCheckerRow(y, true);
 
@@ -45,7 +37,7 @@ public class CheckerBoard : MonoBehaviour
                 Quaternion.identity, transform);
 
             var checkerCoords = new CheckerCoords(y, x);
-            createdChecker.Init(checkerCoords, isWhite);
+            createdChecker.Init(this, checkerCoords, isWhite);
 
             if (isWhite)
                 WhiteCheckers.Add(createdChecker);
@@ -65,14 +57,15 @@ public class CheckerBoard : MonoBehaviour
             + Vector2.up * (y - 1) * CellSize + Vector2.right * (x - 1) * CellSize;
     }
 
-    public bool TryMove(CheckerMove move, bool end = true) {
+    public bool TryMove(CheckerMove move, bool end) {
 
-        bool success = false;
+        var success = false;
 
         if (_allCheckers.ContainsKey(move.oldCoords)) {
 
             var checker = _allCheckers[move.oldCoords];
-            bool isValidMove = Checker.IsValidMove(move.destinationCoords, checker);
+            // TODO:
+            bool isValidMove = checker.IsValidMove(move.destinationCoords);
             bool isValidKill = !move.isKill || _allCheckers.ContainsKey(move.killCoords);
 
             success = isValidMove && isValidKill;

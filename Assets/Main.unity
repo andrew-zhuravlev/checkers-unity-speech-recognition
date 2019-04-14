@@ -337,10 +337,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 519420031}
-  _checkerGhost: {fileID: 0}
   _layerMask:
     serializedVersion: 2
     m_Bits: 256
+  _board: {fileID: 1603100335}
 --- !u!1 &1804289890
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,13 +4,19 @@ using UnityEngine;
 class TouchMoveProvider : MonoBehaviour {
 
     [SerializeField] Camera _mainCamera;
-    [SerializeField] GameObject _checkerGhost;
     [SerializeField] LayerMask _layerMask;
+    [SerializeField] CheckerBoard _board;
 
-    Checker _grabbed;
-    bool _locked = false;
+    Checker _grabbedChecker;
+    bool _locked;
+
+    ObjectPooler _objectPooler;
 
     readonly Dictionary<GameObject, CheckerMove> _ghosts = new Dictionary<GameObject, CheckerMove>();
+
+    void Start() {
+        _objectPooler = ObjectPooler.Instance;
+    }
 
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
@@ -23,17 +29,19 @@ class TouchMoveProvider : MonoBehaviour {
 
                 if (checker == null) {
                     var move = _ghosts[hit.collider.gameObject];
-                    var moveResult = CheckerBoard.SharedInstance.TryMove(_ghosts[hit.collider.gameObject], !move.isKill);
+                    var moveResult = _board.TryMove(_ghosts[hit.collider.gameObject], !move.isKill);
 
                     if (move.isKill) {
-                        var moves = Checker.GetChainedValidMoves(move, _grabbed);
+                        var moves = _grabbedChecker.GetValidMoves(false);
 
                         _locked = moves.Count > 0;
 
-                        if(!_locked) {
-                            CheckerBoard.SharedInstance.EndMove();
+                        if (!_locked) {
+                            ClearAvailableMoves();
+                            _board.EndMove();
                         }
-                        ShowAvailableMoves(moves);
+                        else
+                            ShowAvailableMoves(moves);
                     }
                     else
                         ClearAvailableMoves();
@@ -41,21 +49,23 @@ class TouchMoveProvider : MonoBehaviour {
                     Debug.Log(moveResult ? "Move was successful" : "Move was NOT successful");
                 }
                 else if (!_locked) {
-                    Debug.Log("Checker");
+                    _grabbedChecker = checker;
 
-                    _grabbed = checker;
-
-                    var moves = Checker.GetValidMoves(checker);
+                    var moves = checker.GetValidMoves(true);
                     ShowAvailableMoves(moves);
                 }
             }
         }
     }
 
-    void ClearAvailableMoves() {
+    void HideAvailableMoves() {
         foreach (var ghost in _ghosts) {
             ghost.Key.SetActive(false);
         }
+    }
+
+    void ClearAvailableMoves() {
+        HideAvailableMoves();
         _ghosts.Clear();
     }
 
@@ -64,8 +74,8 @@ class TouchMoveProvider : MonoBehaviour {
         ClearAvailableMoves();
 
         foreach (var move in moves) {
-            var ghost = ObjectPooler.Instance.GetPooledObject(0);
-            ghost.transform.position = CheckerBoard.SharedInstance.CheckerToWorldCoords(move.destinationCoords);
+            var ghost = _objectPooler.GetPooledObject(0);
+            ghost.transform.position = _board.CheckerToWorldCoords(move.destinationCoords);
             ghost.SetActive(true);
 
             _ghosts.Add(ghost, move);

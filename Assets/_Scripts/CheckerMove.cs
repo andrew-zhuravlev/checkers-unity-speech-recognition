@@ -5,5 +5,5 @@ public class CheckerMove {
     public bool isKill;
     public CheckerCoords killCoords;
 
-    public CheckerMove nextMove;
+    public CheckerMove nextMove = null;
 }
