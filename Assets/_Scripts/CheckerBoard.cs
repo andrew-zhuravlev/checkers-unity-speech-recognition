@@ -57,6 +57,7 @@ public class CheckerBoard : MonoBehaviour
             + Vector2.up * (y - 1) * CellSize + Vector2.right * (x - 1) * CellSize;
     }
 
+    // TODO: Should also be sequence.
     public bool TryMove(CheckerMove move, bool end) {
 
         var success = false;
@@ -64,9 +65,8 @@ public class CheckerBoard : MonoBehaviour
         if (_allCheckers.ContainsKey(move.oldCoords)) {
 
             var checker = _allCheckers[move.oldCoords];
-            // TODO:
-            bool isValidMove = checker.IsValidMove(move.destinationCoords);
-            bool isValidKill = !move.isKill || _allCheckers.ContainsKey(move.killCoords);
+            var isValidMove = checker.IsValidMove(move.destinationCoords);
+            var isValidKill = !move.isKill || _allCheckers.ContainsKey(move.killCoords);
 
             success = isValidMove && isValidKill;
 
