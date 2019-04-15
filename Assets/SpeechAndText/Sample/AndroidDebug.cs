@@ -4,6 +4,7 @@ using TextSpeech;
 
 public class AndroidDebug : MonoBehaviour
 {
+    public InputField output;
     public Text txtLog;
     public Text txtNewLog;
     public RectTransform RmsBar;
@@ -31,6 +32,8 @@ public class AndroidDebug : MonoBehaviour
     void onResultCallback(string _data)
     {
         AddLog("Result: " + _data);
+
+        output.text = _data;
     }
 
     void onReadyForSpeechCallback(string _params)
