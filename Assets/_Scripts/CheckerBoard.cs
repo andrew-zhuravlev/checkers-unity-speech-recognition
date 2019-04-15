@@ -14,6 +14,8 @@ public class CheckerBoard : MonoBehaviour
 
     readonly Dictionary<CheckerCoords, Checker> _allCheckers = new Dictionary<CheckerCoords, Checker>();
 
+    public Dictionary<CheckerCoords, Checker> AllCheckers => _allCheckers;
+
     public Checker CheckerAt(CheckerCoords coords) {
         return !_allCheckers.ContainsKey(coords) ? null : _allCheckers[coords];
     }
@@ -22,7 +24,7 @@ public class CheckerBoard : MonoBehaviour
         return coords.Y < 1 || coords.Y > 8 || coords.X < 1 || coords.X > 8;
     }
     
-    void Awake() {
+    void Start() {
         for (int y = 1; y <= 3; ++y)
             CreateCheckerRow(y, true);
 
