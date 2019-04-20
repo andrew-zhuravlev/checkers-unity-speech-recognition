@@ -12,6 +12,8 @@ public class CheckerBoard : MonoBehaviour
     public List<Checker> WhiteCheckers { get; } = new List<Checker>();
     public List<Checker> BlackCheckers { get; } = new List<Checker>();
 
+    static event System.Action<bool> OnGameEnd = delegate { };
+
     readonly Dictionary<CheckerCoords, Checker> _allCheckers = new Dictionary<CheckerCoords, Checker>();
 
     public Dictionary<CheckerCoords, Checker> AllCheckers => _allCheckers;
@@ -85,10 +87,21 @@ public class CheckerBoard : MonoBehaviour
                     killedChecker.Die();
                 }
 
+                Debug.Log("SetCoords");
+
                 checker.SetCoords(move.destinationCoords);
 
                 _allCheckers.Remove(move.oldCoords);
                 _allCheckers.Add(move.destinationCoords, checker);
+
+
+                // Check end game.
+                if(WhiteCheckers.Count == 0) {
+                    OnGameEnd(false);
+                }
+                else if(BlackCheckers.Count == 0) {
+                    OnGameEnd(true);
+                }
             }
         }
 

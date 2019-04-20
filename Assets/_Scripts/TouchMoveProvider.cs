@@ -21,39 +21,49 @@ class TouchMoveProvider : MonoBehaviour {
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
             var mousePosition = Input.mousePosition;
-            var hit = Physics2D.Raycast(_mainCamera.ScreenToWorldPoint(mousePosition), Vector3.zero, 
+
+            Raycast(_mainCamera.ScreenToWorldPoint(mousePosition));
+        }
+    }
+
+    public void Raycast(Vector3 worldPoint) {
+        var hit = Physics2D.Raycast(worldPoint, Vector3.zero,
                 0, _layerMask);
 
-            if (hit.collider != null) {
-                var checker = hit.collider.GetComponent<Checker>();
+        if (hit.collider != null) {
 
-                if (checker == null) {
-                    var move = _ghosts[hit.collider.gameObject];
-                    var moveResult = _board.TryMove(_ghosts[hit.collider.gameObject], !move.isKill);
+            var checker = hit.collider.GetComponent<Checker>();
 
-                    if (move.isKill) {
-                        var moves = _grabbedChecker.GetValidMoves(false);
+            if (checker == null) {
 
-                        _locked = moves.Count > 0;
+                Debug.Log("Checker is not null");
 
-                        if (!_locked) {
-                            ClearAvailableMoves();
-                            _board.EndMove();
-                        }
-                        else
-                            ShowAvailableMoves(moves);
+                var move = _ghosts[hit.collider.gameObject];
+                var moveResult = _board.TryMove(_ghosts[hit.collider.gameObject], !move.isKill);
+
+                if (move.isKill) {
+                    var moves = _grabbedChecker.GetValidMoves(false);
+
+                    _locked = moves.Count > 0;
+
+                    if (!_locked) {
+                        ClearAvailableMoves();
+                        _board.EndMove();
                     }
                     else
-                        ClearAvailableMoves();
-
-                    Debug.Log(moveResult ? "Move was successful" : "Move was NOT successful");
+                        ShowAvailableMoves(moves);
                 }
-                else if (!_locked) {
-                    _grabbedChecker = checker;
+                else
+                    ClearAvailableMoves();
 
-                    var moves = checker.GetValidMoves(true);
-                    ShowAvailableMoves(moves);
-                }
+                Debug.Log(moveResult ? "Move was successful" : "Move was NOT successful");
+            }
+            else if (!_locked) {
+                _grabbedChecker = checker;
+
+                Debug.Log("Getting valid moves");
+                var moves = checker.GetValidMoves(true);
+                ShowAvailableMoves(moves);
             }
         }
     }
@@ -72,6 +82,8 @@ class TouchMoveProvider : MonoBehaviour {
     void ShowAvailableMoves(List<CheckerMove> moves) {
 
         ClearAvailableMoves();
+
+        Debug.Log("Showing moves");
 
         foreach (var move in moves) {
             var ghost = _objectPooler.GetPooledObject(0);

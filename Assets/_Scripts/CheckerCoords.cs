@@ -12,4 +12,8 @@ public struct CheckerCoords {
     public static CheckerCoords operator +(CheckerCoords one, CheckerCoords other) {
         return new CheckerCoords(one.Y + other.Y, one.X + other.X);
     }
+
+    public override string ToString() {
+        return Y + " " + X;
+    }
 }

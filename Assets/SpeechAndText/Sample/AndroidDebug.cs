@@ -23,11 +23,23 @@ public class AndroidDebug : MonoBehaviour
 #endif
     }
 
-    void AddLog(string log)
+    void Awake() {
+        Application.logMessageReceived += Application_logMessageReceived;    
+    }
+
+    private void Application_logMessageReceived(string condition, string stackTrace, LogType type) {
+        AddLog(condition);
+    }
+
+    public void AddLog(string log)
     {
         txtLog.text += "\n" + log;
         txtNewLog.text = log;
-        Debug.Log(log);
+        //Debug.Log(log);
+    }
+    public void ClearLogs() {
+        txtLog.text = "";
+        txtNewLog.text = "";
     }
     void onResultCallback(string _data)
     {

@@ -10,9 +10,14 @@ public class SampleSpeechToText : MonoBehaviour
     public float pitch;
     public float rate;
 
+    public static SampleSpeechToText I;
+
     public Text txtLocale;
     public Text txtPitch;
     public Text txtRate;
+    private void Awake() {
+        I = this;
+    }
     void Start()
     {
         Setting("en-US");
