@@ -12,7 +12,7 @@ public class CheckerBoard : MonoBehaviour
     public List<Checker> WhiteCheckers { get; } = new List<Checker>();
     public List<Checker> BlackCheckers { get; } = new List<Checker>();
 
-    static event System.Action<bool> OnGameEnd = delegate { };
+    public static event System.Action<bool> OnGameEnd = delegate { };
 
     readonly Dictionary<CheckerCoords, Checker> _allCheckers = new Dictionary<CheckerCoords, Checker>();
 
@@ -61,7 +61,6 @@ public class CheckerBoard : MonoBehaviour
             + Vector2.up * (y - 1) * CellSize + Vector2.right * (x - 1) * CellSize;
     }
 
-    // TODO: Should also be sequence.
     public bool TryMove(CheckerMove move, bool end) {
 
         var success = false;

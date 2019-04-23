@@ -8,6 +8,7 @@ public class AndroidDebug : MonoBehaviour
     public Text txtLog;
     public Text txtNewLog;
     public RectTransform RmsBar;
+
     void Start()
     {
         SpeechToText.instance.onResultCallback = onResultCallback;
